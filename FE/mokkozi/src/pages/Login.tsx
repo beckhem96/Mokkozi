@@ -1,5 +1,10 @@
+import axios from 'axios';
 import React, { Dispatch, SetStateAction } from 'react';
+import { useQuery } from 'react-query';
+import { apis } from '../apis/api';
+
 import Button from '../styles/Button';
+
 function logIn({
   isLoginPage,
   setIsLoginPage,
@@ -11,9 +16,10 @@ function logIn({
   isSignupPage: boolean;
   setIsSignupPage: Dispatch<SetStateAction<boolean>>;
 }) {
+  const { isLoading, data } = useQuery('login', apis.login);
   const logInFunc = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    //로그인 함수
+
     console.log('로그인 시도');
   };
   const toSignUpPage = () => {

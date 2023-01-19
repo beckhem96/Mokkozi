@@ -1,19 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import ReacModal from 'react-modal';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import ReactModal from 'react-modal';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 ReactModal.setAppElement('#root');
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
+
+const queryClient = new QueryClient();
+
 root.render(
   <React.StrictMode>
-    <App />
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={true} />
+      <App />
+    </QueryClientProvider>
   </React.StrictMode>,
 );
 

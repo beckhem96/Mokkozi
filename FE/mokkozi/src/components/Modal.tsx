@@ -1,8 +1,12 @@
 import React, { useState, createContext } from 'react';
 import ReactModal from 'react-modal';
+
 import Login from '../pages/Login';
 import SignUp from '../pages/SingUp';
 import Button from '../styles/Button';
+
+//styeld
+import '../styles/Modal.css';
 function Modal({ isOpen, onCancel }: { isOpen: boolean; onCancel: any }) {
   const [isLoginPage, setIsLoginPage] = useState<boolean>(true);
   const [isSignupPage, setIsSignupPage] = useState<boolean>(false);
@@ -15,19 +19,29 @@ function Modal({ isOpen, onCancel }: { isOpen: boolean; onCancel: any }) {
   //   console.log('바뀌냐');
   // };
   return (
-    <ReactModal isOpen={isOpen}>
-      <div>
-        <Button onClick={handleClickCancel}>취소</Button>
-        {isLoginPage && !isSignupPage && (
-          <Login
-            isLoginPage={isLoginPage}
-            setIsLoginPage={setIsLoginPage}
-            isSignupPage={isSignupPage}
-            setIsSignupPage={setIsSignupPage}
-          />
-        )}
-        {isSignupPage && !isLoginPage && <SignUp />}
-      </div>
+    <ReactModal
+      className="Modal"
+      isOpen={isOpen}
+      onRequestClose={() => handleClickCancel}
+      overlayClassName="Overlay"
+    >
+      <Button onClick={handleClickCancel}>취소</Button>
+      {isLoginPage && !isSignupPage && (
+        <Login
+          isLoginPage={isLoginPage}
+          setIsLoginPage={setIsLoginPage}
+          isSignupPage={isSignupPage}
+          setIsSignupPage={setIsSignupPage}
+        />
+      )}
+      {isSignupPage && !isLoginPage && (
+        <SignUp
+          isLoginPage={isLoginPage}
+          setIsLoginPage={setIsLoginPage}
+          isSignupPage={isSignupPage}
+          setIsSignupPage={setIsSignupPage}
+        />
+      )}
     </ReactModal>
   );
 }

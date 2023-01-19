@@ -1,18 +1,28 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import Button from '../styles/Button';
-function signUp(props: any) {
+function signUp({
+  isLoginPage,
+  setIsLoginPage,
+  isSignupPage,
+  setIsSignupPage,
+}: {
+  isLoginPage: boolean;
+  setIsLoginPage: Dispatch<SetStateAction<boolean>>;
+  isSignupPage: boolean;
+  setIsSignupPage: Dispatch<SetStateAction<boolean>>;
+}) {
   const signUpFunc = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     //회원가입 요청 함수
     console.log('회원가입 시도');
+    setIsLoginPage(true);
+    setIsSignupPage(false);
   };
-  // const handleSingupClick = () => {
 
-  // };
   return (
     <>
       <div>
-        <h1>로그인</h1>
+        <h1>회원가입</h1>
         <form onSubmit={signUpFunc}>
           <label htmlFor="id">ID: </label>
           <input type="text" id="id" />
