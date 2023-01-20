@@ -4,7 +4,7 @@ import { Route, Routes, BrowserRouter } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import MyStudy from './pages/MyStudy';
-import Login from './pages/Login';
+import Login from './pages/login.page';
 // 아래는 뭐 어따 쓰는건지?
 // declare function BrowserRouter(props: BrowserRouterProps): React.ReactElement;
 // interface BrowserRouterProps {

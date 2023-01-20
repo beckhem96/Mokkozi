@@ -4,8 +4,6 @@
   left: 40px;
   right: 40px;
   bottom: 40px;
-  border: solid;
-  border-radius: 30px;
   background-color: white;
 }
 
@@ -15,5 +13,6 @@
   left: 20%;
   right: 20%;
   bottom: 10%;
+  border: solid;
   background-color: white;
 }
