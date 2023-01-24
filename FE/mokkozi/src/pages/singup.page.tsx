@@ -4,7 +4,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 //style
 import Button from '../styles/Button';
-import UserFormDiv from '../styles/Div';
+import UserFormDiv from '../styles/UserFormDiv';
 import { Input } from '../styles/Input';
 import Form from '../styles/Form';
 
