@@ -10,9 +10,9 @@ export const MainDiv = styled.div`
   margin-top: 20%;
 `;
 
-function HomeDiv({ children, ...rest }) {
+function MainLayout({ children, ...rest }) {
   // eslint-disable-next-line react/react-in-jsx-scope
   return <MainDiv {...rest}>{children}</MainDiv>;
 }
 
-export default HomeDiv;
+export default MainLayout;

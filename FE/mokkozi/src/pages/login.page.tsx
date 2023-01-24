@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import { loginUserFn } from '../apis/authAPI';
 import Button from '../styles/Button';
-import UserFormDiv from '../styles/Div';
+import UserFormDiv from '../styles/UserFormDiv';
 import Form from '../styles/Form';
 import { Input } from '../styles/Input';
 //입력값 타입 지정
