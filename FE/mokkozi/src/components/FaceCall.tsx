@@ -1,5 +1,5 @@
 'use strict';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { io } from 'socket.io-client';
 import Button from '../styles/Button';
 
@@ -8,16 +8,28 @@ import '../styles/Modal.css';
 function FaceCall() {
   const localVideo: any = useRef(HTMLMediaElement);
   const peer1Video: any = useRef();
+  const [chats, setChats] = useState<Array<{ key: number; value: string }>>([]);
   const socket = io('http://localhost:8080', {
     withCredentials: true,
     extraHeaders: {
       'my-custom-header': 'abcd',
     },
   });
+
+  function addChat(chat: string) {
+    chats.push({ key: 1, value: chat });
+    console.log(chats);
+  }
   useEffect(() => {
     socket.on('welcome', () => {
-      console.log('누가 들어왔어');
+      async function hello() {
+        await addChat('어서와');
+      }
+      hello();
     });
+    // return () => {
+    //   socket.disconnect();
+    // };
   }, []);
 
   async function enterRoom(event: any) {
@@ -37,11 +49,8 @@ function FaceCall() {
         deviceId ? cameraConstraints : initialContrains,
       );
       localVideo.current.srcObject = myStream;
-      console.log(localVideo);
-      console.log('스트림 연결');
       /* 스트림 사용 */
     } catch (e) {
-      console.log(e, '안됨');
       /* 오류 처리 */
     }
   }
@@ -59,6 +68,15 @@ function FaceCall() {
       ></video>
       {/* <video ref={peer1Video} id="peer1" autoPlay playsInline muted></video> */}
       <Button onClick={enterRoom}>연결</Button>
+
+      <div>
+        <h1>Chat</h1>
+        <ul>
+          {chats.map((chat, index) => (
+            <li key={index}>{chat.value}</li>
+          ))}
+        </ul>
+      </div>
     </>
   );
 }

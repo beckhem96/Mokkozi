@@ -3,7 +3,7 @@ import { Route, Routes, BrowserRouter } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
 import Home from './pages/home.page';
-import MyStudy from './pages/MyStudy';
+import MyStudy from './pages/MyStudy.page';
 import Post from './pages/post.page';
 // import Login from './pages/login.page';
 // 아래는 뭐 어따 쓰는건지?
