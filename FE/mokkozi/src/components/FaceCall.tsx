@@ -17,15 +17,12 @@ function FaceCall() {
   });
 
   function addChat(chat: string) {
-    chats.push({ key: 1, value: chat });
+    setChats((curChat) => [...curChat, { key: 1, value: chat }]);
     console.log(chats);
   }
   useEffect(() => {
     socket.on('welcome', () => {
-      async function hello() {
-        await addChat('어서와');
-      }
-      hello();
+      addChat('어서와');
     });
     // return () => {
     //   socket.disconnect();
