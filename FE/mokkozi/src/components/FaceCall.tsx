@@ -1,37 +1,79 @@
-import React, { useRef } from 'react';
-
+'use strict';
+import React, { useEffect, useRef, useState } from 'react';
+import { io } from 'socket.io-client';
 import Button from '../styles/Button';
 
 //styeld
 import '../styles/Modal.css';
 function FaceCall() {
-  const localVideo: any = useRef();
-  function gotStream(stream: any) {
-    const videoTracks = stream.getVideoTracks();
-    console.log('Got stream with constraints:', { audio: true, video: true });
-    console.log(`Using video device: ${videoTracks[0].label}`);
-    console.log('Received local stream');
-    localVideo.srcObject = stream;
+  const localVideo: any = useRef(HTMLMediaElement);
+  const peer1Video: any = useRef();
+  const [chats, setChats] = useState<Array<{ key: number; value: string }>>([]);
+  const socket = io('http://localhost:8080', {
+    withCredentials: true,
+    extraHeaders: {
+      'my-custom-header': 'abcd',
+    },
+  });
+
+  function addChat(chat: string) {
+    setChats((curChat) => [...curChat, { key: 1, value: chat }]);
+    console.log(chats);
   }
-  async function getMedia(e: any) {
+  useEffect(() => {
+    socket.on('welcome', () => {
+      addChat('어서와');
+    });
+    // return () => {
+    //   socket.disconnect();
+    // };
+  }, []);
+
+  async function enterRoom(event: any) {
+    socket.emit('join_room', 'myStudy', await getMedia);
+  }
+  async function getMedia(deviceId: any) {
+    const initialContrains: object = {
+      audip: true,
+      video: { facingMode: 'user' },
+    };
+    const cameraConstraints: object = {
+      audio: true,
+      video: { deviceId: { excat: deviceId } },
+    };
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        audio: true,
-        video: true,
-      });
-      gotStream(stream);
-      console.log('스트림 연결');
+      const myStream = await navigator.mediaDevices.getUserMedia(
+        deviceId ? cameraConstraints : initialContrains,
+      );
+      localVideo.current.srcObject = myStream;
       /* 스트림 사용 */
     } catch (e) {
-      console.log(e, '안됨');
       /* 오류 처리 */
     }
   }
   return (
     <>
       <h1>WebRTC</h1>
-      <video id="local" ref={localVideo} autoPlay></video>
-      <Button onClick={getMedia}>연결</Button>
+      <video
+        ref={localVideo}
+        id="local"
+        autoPlay
+        playsInline
+        muted
+        width={'400'}
+        height={'400'}
+      ></video>
+      {/* <video ref={peer1Video} id="peer1" autoPlay playsInline muted></video> */}
+      <Button onClick={enterRoom}>연결</Button>
+
+      <div>
+        <h1>Chat</h1>
+        <ul>
+          {chats.map((chat, index) => (
+            <li key={index}>{chat.value}</li>
+          ))}
+        </ul>
+      </div>
     </>
   );
 }
