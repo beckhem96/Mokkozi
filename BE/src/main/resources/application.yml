@@ -1,0 +1,23 @@
+spring:
+  jpa:
+    show-sql: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/Mokkozi_DB
+    username: root
+    password: 111111
+   # url: jdbc:mysql://mokkozi-db.cpc7jwn6xk2s.ap-northeast-2.rds.amazonaws.com:3306/Mokkozi_DB
+   # username: mokkozi1
+   # password: "!mokkozi96"
+    
+token:
+  secret: mokkoziyjhiwtbirthyear1996gachon2015
+  Refresh:
+    name: refresh
+    expiredTime: 100
+    expiredTimeMilli: 10000000000
+  Access:
+    name: access
+    expiredTime: 3600000
+    expiredTimeMilli: 10000000
+    
