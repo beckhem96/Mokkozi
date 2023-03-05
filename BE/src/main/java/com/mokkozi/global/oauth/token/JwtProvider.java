@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import com.mokkozi.domain.member.entity.Authority;
+import com.mokkozi.domain.member.entity.Members;
 import com.mokkozi.global.oauth.service.JpaUserDetailsService;
 
 import io.jsonwebtoken.Claims;
@@ -41,9 +42,11 @@ public class JwtProvider {
     }
 	
 	// 토큰 생성
-    public String createToken(String account, List<Authority> roles, long exp) {
-        Claims claims = Jwts.claims().setSubject(account);
-        claims.put("roles", roles);
+    public String createToken(Members member, long exp) {
+        Claims claims = Jwts.claims();
+        claims.put("email", member.getEmail());
+        claims.put("nickname", member.getNickname());
+        claims.put("name", member.getRoles());
         Date now = new Date();
         return Jwts.builder()
                 .setClaims(claims)
@@ -79,9 +82,6 @@ public class JwtProvider {
 
     // 토큰 검증
     public boolean validateToken(String token,boolean refresh) {
-    	 System.out.println(token);
-    	 System.out.println("----");
-    	 
         try {
             // Bearer 검증
         	if(refresh) {
@@ -92,7 +92,6 @@ public class JwtProvider {
             } else {
                 token = token.split(" ")[1].trim();
             }
-            System.out.println(token);
             Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token);
             System.out.println(claims.getBody().getExpiration());
             System.out.println(claims.getBody().getExpiration().before(new Date()));
