@@ -1,5 +1,7 @@
 package com.mokkozi.domain.member.controller;
 
+import java.util.Scanner;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +29,7 @@ public class MembersController {
 	
 	@GetMapping("/test")
 	public String test(){
+		System.out.println();
         return "test";
     }
 	

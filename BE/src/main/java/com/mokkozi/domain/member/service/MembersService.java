@@ -58,18 +58,14 @@ public class MembersService {
 	    }
 	    
 	    TokenDto token = TokenDto.builder().
-	    		access_Token(jwtProvider.createToken(member.getEmail(), member.getRoles(),1000*60*60))
-                .refresh_Token(jwtProvider.createToken(member.getEmail(), member.getRoles(),1000*60*60*12*3))
+	    		access_Token(jwtProvider.createToken(member,1000*60*60))
+                .refresh_Token(jwtProvider.createToken(member,1000*60*60*12*3))
                 .build(); 
 
 	    member.setRefreshToken(token.getRefresh_Token());
 		memberRepository.save(member);
 	    
 	    return MembersLoginResponse.builder()
-	            .id(member.getId())
-	            .email(member.getEmail())
-	            .nickname(member.getNickname())
-	            .roles(member.getRoles())
 	            .token(token.getAccess_Token())
 	            .build();
 	
@@ -85,8 +81,8 @@ public class MembersService {
 	                    .build();
 	            
 	            token = TokenDto.builder().
-	    	    		access_Token(jwtProvider.createToken(member.getEmail(), member.getRoles(),1000*60*60))
-	                    .refresh_Token(jwtProvider.createToken(member.getEmail(), member.getRoles(),1000*60*60*12*3))
+	    	    		access_Token(jwtProvider.createToken(member,1000*60*60))
+	                    .refresh_Token(jwtProvider.createToken(member,1000*60*60*12*3))
 	                    .build(); 
 	
 	            member.setRoles(Collections.singletonList(Authority.builder().name("ROLE_USER").build()));
@@ -99,10 +95,6 @@ public class MembersService {
 	        }
 	        
 	        return MembersLoginResponse.builder()
-		            .id(member.getId())
-		            .email(member.getEmail())
-		            .nickname(member.getNickname())
-		            .roles(member.getRoles())
 		            .token(token.getAccess_Token())
 		            .build();
     }
@@ -114,7 +106,7 @@ public class MembersService {
         //리프레쉬 토큰의 유효기간이 남아있다면 액세스 토큰 발급
         if(jwtProvider.validateToken(member.getRefreshToken(),true)) {
         	return TokenDto.builder()
-        			.access_Token(jwtProvider.createToken(email, member.getRoles(), 1000*60*60))
+        			.access_Token(jwtProvider.createToken(member, 1000*60*60))
         			.build();
         }else {
         	throw new Exception("로그인을 다시 해주세요");
