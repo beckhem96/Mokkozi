@@ -24,10 +24,12 @@ wsServer.on('connection', (socket) => {
   socket.onAny((event) => {
     console.log(`Socket Envet: ${event}`);
   });
-  socket.on('join_room', (roomName, done) => {
+  socket.on('join_room', (roomName) => {
     socket.join(roomName);
-    done();
     socket.to(roomName).emit('welcome');
+  });
+  socket.on('offer', (offer, roomName) => {
+    socket.to(roomName).emit('answer', offer);
   });
 });
 httpServer.listen(8080, handleListen);
