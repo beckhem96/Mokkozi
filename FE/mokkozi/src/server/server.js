@@ -24,9 +24,11 @@ wsServer.on('connection', (socket) => {
   socket.onAny((event) => {
     console.log(`Socket Envet: ${event}`);
   });
+  console.log(socket.rooms);
   socket.on('join_room', (roomName) => {
     socket.join(roomName);
     socket.to(roomName).emit('welcome');
+    console.log(roomName);
   });
   socket.on('offer', (offer, roomName) => {
     socket.to(roomName).emit('offer', offer);
@@ -36,6 +38,13 @@ wsServer.on('connection', (socket) => {
   });
   socket.on('ice', (ice, roomName) => {
     socket.to(roomName).emit('ice', ice);
+  });
+  socket.on('ice', (ice, roomName) => {
+    socket.to(roomName).emit('ice', ice);
+  });
+  socket.on('chat-message', (message, roomName) => {
+    socket.to(roomName).emit('chat-message', message);
+    console.log(message, roomName);
   });
 });
 httpServer.listen(8080, handleListen);

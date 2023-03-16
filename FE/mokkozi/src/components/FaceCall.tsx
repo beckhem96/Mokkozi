@@ -5,11 +5,12 @@ import Button from '../styles/Button';
 
 //styeld
 import '../styles/Modal.css';
-function FaceCall() {
+import Chat from './Chat';
+function FaceCall(props: any) {
   const localVideo: any = useRef(HTMLMediaElement);
   const peerVideo: any = useRef(HTMLMediaElement);
   const [chats, setChats] = useState<Array<{ key: number; value: string }>>([]);
-  const [roomName, setRoomName] = useState('');
+  // const [roomName, setRoomName] = useState('');
   let myDataChannel;
   let myPeerConnection: any;
   let myStream: any;
@@ -25,16 +26,13 @@ function FaceCall() {
   }
   useEffect(() => {
     socket.on('welcome', async () => {
-      myDataChannel = myPeerConnection.createDataChannel('chat');
+      myDataChannel = myPeerConnection.createDataChannel(props.roomName);
       myDataChannel.onmessage = (event: any) => {
         console.log(event.data);
-        console.log('ss');
       };
-      console.log('made data channel');
       const offer = await myPeerConnection.createOffer();
       myPeerConnection.setLocalDescription(offer);
-      sendEmit('offer', offer, roomName);
-      console.log('sent offer');
+      sendEmit('offer', offer, props.roomName);
       addChat('어서와');
     });
     socket.on('answer', (answer) => {
@@ -49,27 +47,30 @@ function FaceCall() {
       myPeerConnection.setRemoteDescription(offer);
       const answer = await myPeerConnection.createAnswer();
       myPeerConnection.setLocalDescription(answer);
-      socket.emit('answer', answer, roomName);
+      socket.emit('answer', answer, props.roomName);
     });
     socket.on('ice', (ice) => {
       myPeerConnection.addIceCandidate(ice);
+    });
+    socket.on('chat-message', (message) => {
+      addChat(message);
     });
     return () => {
       socket.off('welcome');
       socket.off('offer');
       socket.off('answer');
       socket.off('ice');
+      socket.off('chat-message');
     };
   }, []);
 
   async function initConnection() {
-    setRoomName('myStudy');
     await initCall();
-    socket.emit('join_room', roomName);
+    socket.emit('join_room', props.roomName);
   }
 
-  function sendEmit(message: string, data: any, roomName: string) {
-    socket.emit(message, data, roomName);
+  function sendEmit(order: string, data: any, roomName: string) {
+    socket.emit(order, data, roomName);
   }
 
   async function initCall() {
@@ -98,7 +99,7 @@ function FaceCall() {
       .forEach((track: any) => myPeerConnection.addTrack(track, myStream));
   }
   function handleIce(data: { candidate: any }) {
-    sendEmit('ice', data.candidate, roomName);
+    sendEmit('ice', data.candidate, props.roomName);
   }
 
   function handleAddStream(data: any) {
