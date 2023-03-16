@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import FaceCall from '../components/FaceCall';
 import Chat from '../components/Chat';
+import Button from '../styles/Button';
+import { NavLink } from 'react-router-dom';
 import { io } from 'socket.io-client';
 function MyStudy() {
   const { userId } = useParams();
@@ -24,6 +26,9 @@ function MyStudy() {
         <FaceCall roomName={roomName} />
         <Chat roomName={roomName} />
       </div>
+      <Button>
+        <NavLink to={'calendar'}>일정 관리</NavLink>
+      </Button>
     </>
   );
 }
