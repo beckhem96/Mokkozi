@@ -5,7 +5,6 @@ import '../styles/calendar.css';
 
 export const Example = () => {
   const constraintsRef = useRef(null);
-
   return (
     <>
       <motion.div className="drag-area" ref={constraintsRef} />
