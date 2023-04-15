@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import '../styles/calendar.css';
+// import '../styles/calendar.css';
 
 import { Icon } from '@iconify/react';
 import {
@@ -16,27 +16,32 @@ import {
   parse,
   addDays,
 } from 'date-fns';
+
+interface RenderHeaderProps {
+  currentMonth: Date;
+  preMonth: () => void;
+  nextMonth: () => void;
+}
+
 // 헤더 렌더
-function RenderHeader(
-  { currentMonth }: any,
-  { preMonth }: any,
-  { nextMonth }: any,
-) {
+function RenderHeader({
+  currentMonth,
+  preMonth,
+  nextMonth,
+}: RenderHeaderProps) {
   return (
-    <>
-      <div className="header row">
-        <div className="col col-start">
-          <span className="text">
-            <span className="text month">{format(currentMonth, 'M')}월</span>
-          </span>
-          {format(currentMonth, 'yyyy')}
-        </div>
-        <div className="col col-end">
-          <Icon icon="bi:arrow-left-circle-fill" onClick={preMonth} />
-          <Icon icon="bi:arrow-right-circle-fill" onClick={nextMonth} />
-        </div>
+    <div className="header row">
+      <div className="col col-start">
+        <span className="text">
+          <span className="text month">{format(currentMonth, 'M')}월</span>
+        </span>
+        {format(currentMonth, 'yyyy')}
       </div>
-    </>
+      <div className="col col-end">
+        <Icon icon="bi:arrow-left-circle-fill" onClick={preMonth} />
+        <Icon icon="bi:arrow-right-circle-fill" onClick={nextMonth} />
+      </div>
+    </div>
   );
 }
 // 요일 렌더
