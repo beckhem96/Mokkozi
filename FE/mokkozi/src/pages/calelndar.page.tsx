@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-
+import '../styles/Calendar/_calendar.scss';
 // import '../styles/calendar.css';
 
 import { Icon } from '@iconify/react';
@@ -21,6 +21,12 @@ interface RenderHeaderProps {
   currentMonth: Date;
   preMonth: () => void;
   nextMonth: () => void;
+}
+
+interface RenderCellsProps {
+  currentMonth: Date;
+  selectedDate: Date;
+  onDateClick: () => void;
 }
 
 // 헤더 렌더
@@ -59,7 +65,11 @@ function RenderDays() {
   return <div className="days row">{days}</div>;
 }
 // 각 일 렌더
-function RenderCells(currentMonth: any, selectedDate: any, onDateClick: any) {
+function RenderCells({
+  currentMonth,
+  selectedDate,
+  onDateClick,
+}: RenderCellsProps) {
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
   const startDate = startOfWeek(monthStart);
