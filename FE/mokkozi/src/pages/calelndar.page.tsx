@@ -26,7 +26,7 @@ interface RenderHeaderProps {
 interface RenderCellsProps {
   currentMonth: Date;
   selectedDate: Date;
-  onDateClick: () => void;
+  onDateClick: (day: Date) => void;
 }
 
 // 헤더 렌더
@@ -96,7 +96,7 @@ function RenderCells({
               : 'valid'
           }`}
           key={day.toString()}
-          onClick={() => onDateClick.parse(cloneDay)}
+          onClick={() => onDateClick(cloneDay)}
         >
           <span
             className={
@@ -131,7 +131,7 @@ function Calendar() {
   const nextMonth = () => {
     setCurrentMonth(addMonths(currentMonth, 1));
   };
-  const onDateClick = (day: any) => {
+  const onDateClick = (day: Date) => {
     setSelectedDate(day);
   };
 
